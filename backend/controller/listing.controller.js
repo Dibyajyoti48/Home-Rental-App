@@ -21,7 +21,7 @@ export const createListing = async (req, res, next) => {
       description,
       price,
     } = req.body
-    
+
     const listingPhotos = req.files || []
 
     if (!listingPhotos) {
@@ -53,6 +53,23 @@ export const createListing = async (req, res, next) => {
     await newListing.save()
 
     res.status(201).json(newListing)
+  } catch (error) {
+    next(error)
+  }
+}
+export const getListings = async (req, res, next) => {
+  const qCategory = req.query.category
+
+  try {
+    let listings
+
+    if (qCategory) {
+      listings = await Listing.find({ category: qCategory }).populate("creator")
+    } else {
+      listings = await Listing.find().populate("creator")
+    }
+
+    res.status(200).json(listings)
   } catch (error) {
     next(error)
   }
