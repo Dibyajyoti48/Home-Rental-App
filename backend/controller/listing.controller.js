@@ -1,5 +1,5 @@
-import Listing from "../models/listing.model.js"
-import { errorHandler } from "../utils/error.js"
+import Listing from "../models/listing.model.js";
+import { errorHandler } from "../utils/error.js";
 
 export const createListing = async (req, res, next) => {
   try {
@@ -20,15 +20,15 @@ export const createListing = async (req, res, next) => {
       title,
       description,
       price,
-    } = req.body
+    } = req.body;
 
-    const listingPhotos = req.files || []
+    const listingPhotos = req.files;
 
     if (!listingPhotos) {
-      next(errorHandler(400, "No file uploaded"))
+      next(errorHandler(400, "No file uploaded"));
     }
-    const listingPhotoPaths = listingPhotos.map((file) => file.path)
 
+    const listingPhotoPaths = listingPhotos.map((file) => file.path);
 
     const newListing = new Listing({
       creator,
@@ -48,29 +48,65 @@ export const createListing = async (req, res, next) => {
       title,
       description,
       price,
-    })
+    });
 
-    await newListing.save()
+    await newListing.save();
 
-    res.status(201).json(newListing)
+    res.status(201).json(newListing);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
 export const getListings = async (req, res, next) => {
-  const qCategory = req.query.category
+  const qCategory = req.query.category;
 
   try {
-    let listings
+    let listings;
 
     if (qCategory) {
-      listings = await Listing.find({ category: qCategory }).populate("creator")
+      listings = await Listing.find({ category: qCategory }).populate("creator");
     } else {
-      listings = await Listing.find().populate("creator")
+      listings = await Listing.find().populate("creator");
     }
 
-    res.status(200).json(listings)
+    res.status(200).json(listings);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
+export const getListingDetails = async (req, res, next) => {
+  try {
+    const { listingId } = req.params;
+
+    const listing = await Listing.findById(listingId).populate("creator");
+
+    res.status(200).json(listing);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getListingsBySearch = async (req, res, next) => {
+  const { search } = req.params;
+
+  try {
+    let listings = [];
+
+    if (search === "all") {
+      listings = await Listing.find().populate("creator");
+    } else {
+      listings = await Listing.find({
+        $or: [
+          { category: { $regex: search, $options: "i" } },
+          { title: { $regex: search, $options: "i" } },
+        ],
+      }).populate("creator");
+    }
+
+    res.status(200).json(listings);
+  } catch (error) {
+    next(error);
+  }
+};

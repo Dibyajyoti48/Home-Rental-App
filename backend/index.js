@@ -4,10 +4,12 @@ import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.route.js";
 import listingRoutes from "./routes/listing.route.js";
+// import bookingRoutes from "./routes/booking.route.js";
+// import userRoutes from "./routes/user.route.js";
 
 dotenv.config();
 
-// Connect to MongoDB
+// Connect to MongoDB (updated to remove deprecated options)
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -27,12 +29,13 @@ app.use(express.static("public"));
 // Route handlers
 app.use("/api/auth", authRoutes);
 app.use("/api/listing", listingRoutes);
+// app.use("/api/booking", bookingRoutes);
+// app.use("/api/user", userRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
-  
   return res.status(statusCode).json({
     success: false,
     statusCode,
@@ -40,8 +43,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
-const PORT = process.env.PORT || 3000; // You can use an environment variable for the port
+// Start server after setting up routes
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

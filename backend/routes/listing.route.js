@@ -1,23 +1,30 @@
-import express from "express"
-import multer from "multer"
-import {createListing, getListings} from "../controller/listing.controller.js"
+import express from "express";
+import multer from "multer";
+import {
+  createListing,
+  getListingDetails,
+  getListings,
+  getListingsBySearch,
+} from "../controller/listing.controller.js";
 
-// multer configuration
+const router = express.Router();
+
+// Multer configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/uploads/")
+    cb(null, "public/uploads/");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname)
+    cb(null, Date.now() + "-" + file.originalname);
   },
-})
+});
 
-const upload = multer({ storage })
+const upload = multer({ storage });
 
-const router = express.Router()
+// Routes
+router.post("/create", upload.array("listingPhotos"), createListing);
+router.get("/", getListings);
+router.get("/:listingId", getListingDetails);
+router.get("/search/:search", getListingsBySearch);
 
-router.post("/create", upload.array("listingPhotos"), createListing)
-router.get("/", getListings)
-
-
-export default router
+export default router;
