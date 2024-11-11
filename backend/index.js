@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.route.js";
 import listingRoutes from "./routes/listing.route.js";
  import bookingRoutes from "./routes/booking.route.js";
-// import userRoutes from "./routes/user.route.js";
+ import userRoutes from "./routes/user.route.js";
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ app.use(express.static("public"));
 app.use("/api/auth", authRoutes);
 app.use("/api/listing", listingRoutes);
  app.use("/api/booking", bookingRoutes);
-// app.use("/api/user", userRoutes);
+ app.use("/api/user", userRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
