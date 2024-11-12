@@ -1,6 +1,6 @@
 import express from "express"
 import {
-    // addListingToWishList,
+     addListingToWishList,
     // getPropertyList,
     // getReservationList,
     getTripList,
@@ -9,5 +9,7 @@ import {
 const router = express.Router()
 
 router.get("/:userId/trips", getTripList)
+router.patch("/:userId/:listingId", addListingToWishList)
+ 
  
 export default router
