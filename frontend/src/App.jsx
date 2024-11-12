@@ -5,6 +5,7 @@ import Registerpage from './Pages/Registerpage';// Adjust the path if needed
 import LoginPage from './Pages/LoginPage';
 import CreateListing from "./Pages/CreateListing";
 import ListingDetails from "./Pages/ListingDetails";
+import TripList from "./Pages/TripList"
 const App = () => {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/create-listing" element={<CreateListing/>} />
         <Route path="/listings/:listingId" element={<ListingDetails/>} />
+        <Route path="/:userId/trips" element={<TripList />} />
       </Routes>
     </BrowserRouter>
   );
