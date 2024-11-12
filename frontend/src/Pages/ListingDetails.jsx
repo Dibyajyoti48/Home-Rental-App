@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import { useParams } from 'react-router-dom';
+import { useNavigate,useParams } from 'react-router-dom';
 import { facilities } from "../data";
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRange } from "react-date-range";
+import { useSelector } from "react-redux";
+
 
 const ListingDetails = () => {
   const { listingId } = useParams();
@@ -43,7 +45,36 @@ const ListingDetails = () => {
   const end = new Date(dateRange[0].endDate)
 
   const dayCount = Math.round(end - start) / (1000 * 60 * 60 * 24)
-  const handleSubmit = async () => {}
+   //  Booking
+   const customerId = useSelector((state) => state?.user?.user?._id)
+  //console.log(customerId)
+  const navigate = useNavigate()
+  const handleSubmit = async () => {
+    try {
+      const bookingForm = {
+        customerId,
+        listingId,
+        hostId: listing.creator._id,
+        startDate: dateRange[0].startDate.toDateString(),
+        endDate: dateRange[0].endDate.toDateString(),
+        totalPrice: listing.price * dayCount,
+      }
+      const response = await fetch("http://localhost:3000/api/booking/create",
+         {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingForm),
+      })
+
+      if (response.ok) {
+        navigate(`/${customerId}/trips`)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   return (
