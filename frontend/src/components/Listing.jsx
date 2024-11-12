@@ -7,7 +7,7 @@ import ListingCard from "./ListingCard"
 const Listing = () => {
     const [selectedCategory, setSelectedCategory] = useState("All")
     const listings = useSelector((state) => state?.listings?.listings)
-    console.log(listings)
+    //console.log(listings)
     const dispatch = useDispatch()
     const getListings = async () => {
       try {
@@ -64,7 +64,7 @@ const Listing = () => {
   ))}
       
     </div>
-    <div className="px-12 pb-32 lg:px-5 flex flex-wrap justify-center gap-1">
+    <div className="px-12 pb-32 lg:px-5 flex flex-wrap justify-center gap-5">
       {listings.length > 0 && 
     listings.map(
             ({
