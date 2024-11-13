@@ -2,7 +2,7 @@ import express from "express"
 import {
      addListingToWishList,
      getPropertyList,
-    // getReservationList,
+    getReservationList,
     getTripList,
   } from "../controller/user.controller.js"
 
@@ -12,7 +12,7 @@ router.get("/:userId/trips", getTripList)
 router.patch("/:userId/:listingId", addListingToWishList)
 router.get("/:userId/properties", getPropertyList)
 
-//router.get("/:userId/reservations", getReservationList)
+router.get("/:userId/reservations", getReservationList)
 
 export default router
  
