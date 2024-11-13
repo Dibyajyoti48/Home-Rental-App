@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { FaArrowLeft, FaArrowRight, FaHeart } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
-//import { setWishList } from "../redux/slice/userSlice"
+import { setWishList } from "../redux/slice/userSlice"
 
 const ListingCard = ({
   listingId,
@@ -145,7 +145,7 @@ const ListingCard = ({
         </>
       )}
 
-      {/* <button
+      <button
         className={`absolute right-5 top-5 border-none text-2xl cursor-pointer z-[999] bg-none ${
           isAddToWishList ? "text-red-500" : "text-white"
         }`}
@@ -156,7 +156,7 @@ const ListingCard = ({
         disabled={!user}
       >
         <FaHeart />
-      </button> */}
+      </button>
     </div>
   )
 }
