@@ -7,6 +7,9 @@ import CreateListing from "./Pages/CreateListing";
 import ListingDetails from "./Pages/ListingDetails";
 import TripList from "./Pages/TripList"
 import WishList from "./Pages/WishList"
+import PropertyList from './Pages/PropertyList'; // Adjust the path if needed
+
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -18,6 +21,8 @@ const App = () => {
         <Route path="/listings/:listingId" element={<ListingDetails/>} />
         <Route path="/:userId/trips" element={<TripList />} />
          <Route path="/:userId/wishList" element={<WishList />} />
+         <Route path="/:userId/properties" element={<PropertyList />} />
+         {/* <Route path="/:userId/reservations" element={<ReservationList />} /> */}
       </Routes>
     </BrowserRouter>
   );
